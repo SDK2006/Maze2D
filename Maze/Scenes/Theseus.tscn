@@ -1,11 +1,17 @@
-[gd_scene load_steps=4 format=3 uid="uid://ms1xwefl15cj"]
+[gd_scene load_steps=5 format=3 uid="uid://ms1xwefl15cj"]
 
 [ext_resource type="Script" uid="uid://dwtmldebpa0u5" path="res://Maze/Scripts/Theseus.gd" id="1_4t448"]
 [ext_resource type="Texture2D" uid="uid://ces45821t18i" path="res://icon.svg" id="2_ydpmv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hqtel"]
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_4t448"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
 [node name="Theseus" type="CharacterBody2D"]
+safe_margin = 0.5
 script = ExtResource("1_4t448")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -22,3 +28,14 @@ texture = ExtResource("2_ydpmv")
 zoom = Vector2(4, 4)
 position_smoothing_enabled = true
 position_smoothing_speed = 10.0
+
+[node name="TheseusString" type="Line2D" parent="."]
+width = 0.475
+default_color = Color(0.78431374, 0.627451, 0.27058825, 0.90588236)
+
+[node name="TheseusStringCore" type="Line2D" parent="."]
+width = 0.6
+default_color = Color(1, 0, 0, 0.34901962)
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_4t448")

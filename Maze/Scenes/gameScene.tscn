@@ -1,12 +1,18 @@
-[gd_scene load_steps=4 format=3 uid="uid://dkag5ngw8uexd"]
+[gd_scene load_steps=5 format=3 uid="uid://dkag5ngw8uexd"]
 
 [ext_resource type="PackedScene" uid="uid://cc54gv3vwcd6x" path="res://Maze/Scenes/maze_generator.tscn" id="1_hse8o"]
 [ext_resource type="Script" uid="uid://bt7toxgepoock" path="res://Maze/Scripts/gameScene.gd" id="1_yksm7"]
 [ext_resource type="PackedScene" uid="uid://dl8o26tqm7ny3" path="res://Maze/Scenes/fade_transition.tscn" id="4_3ua7j"]
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_o4tce"]
+load_path = "res://.godot/imported/Brown.jpg-842d30825c2bdf9f2c7873f3316eb05a.ctex"
+
 [node name="gameScene" type="Node2D"]
 script = ExtResource("1_yksm7")
 
 [node name="MazeGenerator" parent="." instance=ExtResource("1_hse8o")]
+EntranceTexture = SubResource("CompressedTexture2D_o4tce")
 
 [node name="FadeTransition" parent="." instance=ExtResource("4_3ua7j")]
+
+[node name="Players" type="Node2D" parent="."]
