@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://cc54gv3vwcd6x"]
+
+[ext_resource type="Script" uid="uid://bfqijooegsrhr" path="res://Maze/Scripts/maze_generator.gd" id="1_t3ow0"]
+[ext_resource type="PackedScene" uid="uid://c7kpkunts5rol" path="res://Maze/Scenes/maze_cell.tscn" id="2_r1w0m"]
+
+[node name="MazeGenerator" type="Node2D"]
+script = ExtResource("1_t3ow0")
+_MazeCellPrefab = ExtResource("2_r1w0m")
+_mazeWidth = 50
+_mazeDepth = 50
+chamberRadius = 5

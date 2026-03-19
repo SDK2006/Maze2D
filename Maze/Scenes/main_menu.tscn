@@ -1,0 +1,76 @@
+[gd_scene load_steps=3 format=3 uid="uid://ggnipnsxua5c"]
+
+[ext_resource type="Script" uid="uid://dg67vdjawij17" path="res://Maze/Scripts/main_menu.gd" id="1_28flt"]
+[ext_resource type="PackedScene" uid="uid://dl8o26tqm7ny3" path="res://Maze/Scenes/fade_transition.tscn" id="2_48xlc"]
+
+[node name="MainMenu" type="Node2D"]
+script = ExtResource("1_28flt")
+
+[node name="ButtonManager" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Start" type="Button" parent="ButtonManager"]
+layout_mode = 0
+offset_left = 460.0
+offset_top = 187.0
+offset_right = 659.0
+offset_bottom = 257.0
+text = "START"
+
+[node name="Choose_Player" type="Button" parent="ButtonManager"]
+layout_mode = 0
+offset_left = 460.0
+offset_top = 281.0
+offset_right = 659.0
+offset_bottom = 351.0
+text = "CHOOSE PLAYER"
+
+[node name="Quit" type="Button" parent="ButtonManager"]
+layout_mode = 0
+offset_left = 460.0
+offset_top = 376.0
+offset_right = 659.0
+offset_bottom = 446.0
+text = "QUIT"
+
+[node name="FadeTransition" parent="." instance=ExtResource("2_48xlc")]
+visible = false
+
+[node name="FadeTimer" type="Timer" parent="FadeTransition"]
+
+[node name="PlayerSelectionGUI" type="CanvasGroup" parent="."]
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="PlayerSelectionGUI"]
+offset_left = 63.0
+offset_top = 80.0
+offset_right = 1065.0
+offset_bottom = 539.0
+mouse_filter = 1
+color = Color(7.219613e-08, 0.16629922, 0.1662991, 0.12156863)
+
+[node name="Theseus" type="Button" parent="PlayerSelectionGUI/ColorRect"]
+layout_mode = 0
+offset_left = 642.0
+offset_top = 146.0
+offset_right = 876.0
+offset_bottom = 255.0
+text = "Theseus"
+
+[node name="Minotaur" type="Button" parent="PlayerSelectionGUI/ColorRect"]
+layout_mode = 0
+offset_left = 116.0
+offset_top = 146.0
+offset_right = 350.0
+offset_bottom = 255.0
+text = "Minotaur"
+
+[connection signal="pressed" from="ButtonManager/Start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="ButtonManager/Choose_Player" to="." method="_on_choose_player_pressed"]
+[connection signal="pressed" from="ButtonManager/Quit" to="." method="_on_quit_pressed"]
+[connection signal="timeout" from="FadeTransition/FadeTimer" to="." method="_on_fade_timer_timeout"]
+[connection signal="pressed" from="PlayerSelectionGUI/ColorRect/Theseus" to="." method="_on_theseus_pressed"]
+[connection signal="pressed" from="PlayerSelectionGUI/ColorRect/Minotaur" to="." method="_on_minotaur_pressed"]

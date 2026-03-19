@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://ms1xwefl15cj"]
+
+[ext_resource type="Script" uid="uid://dwtmldebpa0u5" path="res://Maze/Scripts/Theseus.gd" id="1_4t448"]
+[ext_resource type="Texture2D" uid="uid://ces45821t18i" path="res://icon.svg" id="2_ydpmv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hqtel"]
+
+[node name="Theseus" type="CharacterBody2D"]
+script = ExtResource("1_4t448")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(0.5, 0.5)
+shape = SubResource("RectangleShape2D_hqtel")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 0.93333334, 0, 1)
+position = Vector2(1.9073486e-06, -4.7683716e-07)
+scale = Vector2(0.075, 0.075)
+texture = ExtResource("2_ydpmv")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(4, 4)
+position_smoothing_enabled = true
+position_smoothing_speed = 10.0

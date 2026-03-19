@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b8i6hpxwuyn2s"]
+
+[ext_resource type="Script" uid="uid://d01ya1ewdjvie" path="res://Maze/WallBreakEffect.gd" id="1_xut51"]
+
+[node name="WallBreakEffect" type="Node2D"]
+script = ExtResource("1_xut51")
