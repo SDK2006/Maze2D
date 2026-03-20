@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://cavsvjnghfk3i"]
+
+[ext_resource type="Script" uid="uid://c1gtns7sitdqj" path="res://Maze/Scripts/boss.gd" id="1_s12fr"]
+[ext_resource type="Texture2D" uid="uid://dt37pheucocwb" path="res://gfx/kenney_scribble-dungeons/PNG/Double (128px)/Characters/red_character.png" id="1_xgyxn"]
+[ext_resource type="Texture2D" uid="uid://cdmey74jxxbjl" path="res://gfx/kenney_scribble-dungeons/PNG/Double (128px)/Characters/red_hand.png" id="2_s12fr"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gjicc"]
+radius = 8.0
+
+[node name="Boss" type="CharacterBody2D"]
+script = ExtResource("1_s12fr")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_xgyxn")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_gjicc")
+
+[node name="Hand_R" type="Sprite2D" parent="."]
+position = Vector2(11, -5)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("2_s12fr")
+
+[node name="Hand_L" type="Sprite2D" parent="."]
+position = Vector2(10, 6)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("2_s12fr")

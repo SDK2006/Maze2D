@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://c7kpkunts5rol"]
+[gd_scene load_steps=7 format=3 uid="uid://c7kpkunts5rol"]
 
 [ext_resource type="Script" uid="uid://b7rs3lq3s8qnc" path="res://Maze/Scripts/maze_cell.gd" id="1_02fc2"]
 [ext_resource type="Texture2D" uid="uid://c53skmghkhwbc" path="res://Maze/MazeTextures/Ground.png" id="2_kg367"]
+[ext_resource type="Texture2D" uid="uid://cwddrlmcp8yxl" path="res://Maze/MazeTextures/White.jpg" id="3_csdvo"]
 [ext_resource type="Script" uid="uid://ciadj1bhsut2m" path="res://Maze/Scripts/IndividualWalls.gd" id="4_kg367"]
 [ext_resource type="Texture2D" uid="uid://b834r5tin8crb" path="res://Maze/MazeTextures/WallLR (1).png" id="4_uy5yl"]
 
@@ -20,8 +21,8 @@ _visitedTexture = ExtResource("2_kg367")
 [node name="UnvisitedBlock" type="Sprite2D" parent="."]
 modulate = Color(0.63015, 0.32801774, 0.31780866, 1)
 position = Vector2(-4.7683716e-07, -4.7683716e-07)
-scale = Vector2(0.62499994, 0.62499994)
-texture = ExtResource("2_kg367")
+scale = Vector2(1.25, 1.25)
+texture = ExtResource("3_csdvo")
 
 [node name="FrontWall" type="StaticBody2D" parent="." groups=["breakable_wall"]]
 script = ExtResource("4_kg367")

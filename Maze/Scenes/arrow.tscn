@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://kq5iseuk86o6"]
+
+[ext_resource type="Script" uid="uid://b60oefo8v2ftt" path="res://projectile.gd" id="1_uo40e"]
+[ext_resource type="Texture2D" uid="uid://tm50js4ybpxk" path="res://gfx/kenney_scribble-dungeons/PNG/Default (64px)/Items/weapon_arrow.png" id="2_uo40e"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_14cgk"]
+size = Vector2(4.5, 1)
+
+[node name="Arrow" type="Area2D"]
+script = ExtResource("1_uo40e")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = 1.5707964
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("2_uo40e")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(4.25, 0)
+shape = SubResource("RectangleShape2D_14cgk")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

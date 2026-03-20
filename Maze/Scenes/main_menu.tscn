@@ -60,6 +60,14 @@ offset_right = 876.0
 offset_bottom = 255.0
 text = "Theseus"
 
+[node name="Odysseus" type="Button" parent="PlayerSelectionGUI/ColorRect"]
+layout_mode = 0
+offset_left = 379.0
+offset_top = 146.0
+offset_right = 613.0
+offset_bottom = 255.0
+text = "Odysseus"
+
 [node name="Minotaur" type="Button" parent="PlayerSelectionGUI/ColorRect"]
 layout_mode = 0
 offset_left = 116.0
@@ -73,4 +81,5 @@ text = "Minotaur"
 [connection signal="pressed" from="ButtonManager/Quit" to="." method="_on_quit_pressed"]
 [connection signal="timeout" from="FadeTransition/FadeTimer" to="." method="_on_fade_timer_timeout"]
 [connection signal="pressed" from="PlayerSelectionGUI/ColorRect/Theseus" to="." method="_on_theseus_pressed"]
+[connection signal="pressed" from="PlayerSelectionGUI/ColorRect/Odysseus" to="." method="_on_odysseus_pressed"]
 [connection signal="pressed" from="PlayerSelectionGUI/ColorRect/Minotaur" to="." method="_on_minotaur_pressed"]

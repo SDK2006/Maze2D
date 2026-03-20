@@ -1,0 +1,68 @@
+[gd_scene load_steps=8 format=3 uid="uid://h0p073vq2l41"]
+
+[ext_resource type="Script" uid="uid://jwrxuyelkef4" path="res://Maze/Scripts/archer.gd" id="1_1c86c"]
+[ext_resource type="PackedScene" uid="uid://kq5iseuk86o6" path="res://Maze/Scenes/arrow.tscn" id="2_nsmju"]
+[ext_resource type="Texture2D" uid="uid://bs52eaddv28he" path="res://gfx/kenney_scribble-dungeons/PNG/Default (64px)/Characters/green_character.png" id="3_8a7jt"]
+[ext_resource type="Texture2D" uid="uid://d2eenrv3tekw3" path="res://gfx/kenney_scribble-dungeons/PNG/Default (64px)/Characters/green_hand.png" id="4_5uvtv"]
+[ext_resource type="Texture2D" uid="uid://bjd5a3hwrfncc" path="res://gfx/kenney_scribble-dungeons/PNG/Default (64px)/Items/weapon_bow.png" id="5_itelf"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qblxv"]
+radius = 8.246211
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_1c86c"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
+[node name="Archer" type="CharacterBody2D"]
+z_index = 1
+script = ExtResource("1_1c86c")
+arrow_scene = ExtResource("2_nsmju")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(0.5, 0.5)
+shape = SubResource("CircleShape2D_qblxv")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(1.9073486e-06, -4.7683716e-07)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("3_8a7jt")
+
+[node name="Bow" type="Node2D" parent="."]
+position = Vector2(7, 0)
+
+[node name="Hand_L" type="Sprite2D" parent="Bow"]
+modulate = Color(1, 0.93333334, 0, 1)
+position = Vector2(-1.5999999, -1.5999997)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("4_5uvtv")
+metadata/_edit_lock_ = true
+
+[node name="WeaponBow" type="Sprite2D" parent="Bow"]
+position = Vector2(-1, 0)
+rotation = 1.5707964
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("5_itelf")
+metadata/_edit_lock_ = true
+
+[node name="Hand_R" type="Sprite2D" parent="Bow"]
+modulate = Color(1, 0.93333334, 0, 1)
+position = Vector2(-0.5999999, 0.39999992)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("4_5uvtv")
+metadata/_edit_lock_ = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(4, 4)
+position_smoothing_enabled = true
+position_smoothing_speed = 10.0
+
+[node name="AttackCooldown" type="Timer" parent="."]
+wait_time = 0.3
+one_shot = true
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_1c86c")

@@ -1,41 +1,51 @@
-[gd_scene load_steps=5 format=3 uid="uid://ms1xwefl15cj"]
+[gd_scene load_steps=7 format=3 uid="uid://ms1xwefl15cj"]
 
 [ext_resource type="Script" uid="uid://dwtmldebpa0u5" path="res://Maze/Scripts/Theseus.gd" id="1_4t448"]
-[ext_resource type="Texture2D" uid="uid://ces45821t18i" path="res://icon.svg" id="2_ydpmv"]
+[ext_resource type="PackedScene" uid="uid://kq5iseuk86o6" path="res://Maze/Scenes/arrow.tscn" id="2_i1i1p"]
+[ext_resource type="Texture2D" uid="uid://bs52eaddv28he" path="res://gfx/kenney_scribble-dungeons/PNG/Default (64px)/Characters/green_character.png" id="3_i1i1p"]
+[ext_resource type="Texture2D" uid="uid://d2eenrv3tekw3" path="res://gfx/kenney_scribble-dungeons/PNG/Default (64px)/Characters/green_hand.png" id="4_u7nl2"]
+[ext_resource type="Texture2D" uid="uid://bjd5a3hwrfncc" path="res://gfx/kenney_scribble-dungeons/PNG/Default (64px)/Items/weapon_bow.png" id="5_u7nl2"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_hqtel"]
-
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_4t448"]
-properties/0/path = NodePath(".:position")
-properties/0/spawn = true
-properties/0/replication_mode = 1
+[sub_resource type="CircleShape2D" id="CircleShape2D_qblxv"]
+radius = 4.0
 
 [node name="Theseus" type="CharacterBody2D"]
-safe_margin = 0.5
+z_index = 1
 script = ExtResource("1_4t448")
+arrow_scene = ExtResource("2_i1i1p")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 scale = Vector2(0.5, 0.5)
-shape = SubResource("RectangleShape2D_hqtel")
+shape = SubResource("CircleShape2D_qblxv")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-modulate = Color(1, 0.93333334, 0, 1)
 position = Vector2(1.9073486e-06, -4.7683716e-07)
-scale = Vector2(0.075, 0.075)
-texture = ExtResource("2_ydpmv")
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("3_i1i1p")
+
+[node name="Hand_L" type="Sprite2D" parent="."]
+modulate = Color(1, 0.93333334, 0, 1)
+position = Vector2(6, -0.9999999)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("4_u7nl2")
+
+[node name="WeaponBow" type="Sprite2D" parent="."]
+position = Vector2(7, 1.1920929e-07)
+rotation = 1.5707964
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("5_u7nl2")
+
+[node name="Hand_R" type="Sprite2D" parent="."]
+modulate = Color(1, 0.93333334, 0, 1)
+position = Vector2(7, 0.99999976)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("4_u7nl2")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(4, 4)
 position_smoothing_enabled = true
 position_smoothing_speed = 10.0
 
-[node name="TheseusString" type="Line2D" parent="."]
-width = 0.475
-default_color = Color(0.78431374, 0.627451, 0.27058825, 0.90588236)
-
-[node name="TheseusStringCore" type="Line2D" parent="."]
-width = 0.6
-default_color = Color(1, 0, 0, 0.34901962)
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_4t448")
+[node name="AttackCooldown" type="Timer" parent="."]
+wait_time = 0.3
+one_shot = true

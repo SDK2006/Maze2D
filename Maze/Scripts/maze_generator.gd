@@ -6,7 +6,6 @@ extends Node2D
 var _mazeGrid = Array()
 
 @export var chamberRadius : int
-@export var EntranceTexture : CompressedTexture2D
 
 var rng = RandomNumberGenerator.new()
 
@@ -23,13 +22,6 @@ func _ready() -> void:
 			add_child(_mazeGrid[i][j])
 	_GenerateMaze(_mazeGrid[0][0])
 	
-	#Changing border walls group
-	for i in range(0, _mazeDepth):
-		_mazeGrid[0][i].get_node("LeftWall").remove_from_group("breakable_wall")
-		_mazeGrid[_mazeDepth-1][i].get_node("RightWall").remove_from_group("breakable_wall")
-		_mazeGrid[i][0].get_node("FrontWall").remove_from_group("breakable_wall")
-		_mazeGrid[i][_mazeDepth-1].get_node("BackWall").remove_from_group("breakable_wall")
-	
 	#Creating Minotaur Chamber
 	var midWidth = int(_mazeWidth/2.0)
 	var midDepth = int(_mazeWidth/2.0)
@@ -38,7 +30,7 @@ func _ready() -> void:
 			_mazeGrid[i][j].ClearAll()
 	
 	#Creating Labyrinth Entrance
-	_mazeGrid[_mazeWidth-1][_mazeDepth-1].get_node("UnvisitedBlock").texture = EntranceTexture
+	_mazeGrid[_mazeWidth-1][_mazeDepth-1].ClearBackWall()
 
 func _GenerateMaze(startCell: MazeCell):
 	# Each stack entry is [previousCell, currentCell]

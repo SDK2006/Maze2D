@@ -4,7 +4,7 @@ var coords : Vector2
 
 const SPEED = 100
 
-const DASH_SPEED = 300
+const DASH_SPEED = 200
 const DASH_DURATION = 0.5
 const DASH_COOLDOWN = 1.0
 const DASH_CAST_LENGTH = 50 
@@ -32,6 +32,7 @@ func _ready():
 	dash_cast.collision_mask = 1
 
 func _physics_process(_delta: float) -> void:
+	
 	if is_dashing:
 		_process_dash()
 	else:
