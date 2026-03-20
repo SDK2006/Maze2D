@@ -17,6 +17,6 @@ func despawn():
 	tween.tween_callback(queue_free)
 
 func _on_body_entered(body: Node2D) -> void:
-	if body.is_in_group("breakable_wall") or body.is_in_group("enemy"):
+	if body.is_in_group("breakable_wall") or body.is_in_group("unbreakable_wall") or body.is_in_group("enemy"):
 		#queue_free()
 		stop = true

@@ -1,3 +1,4 @@
+
 extends Node2D
 @export var _MazeCellPrefab : PackedScene
 @export var _mazeWidth : int
@@ -10,6 +11,8 @@ var _mazeGrid = Array()
 @export var chamberRadius : int
 
 var rng = RandomNumberGenerator.new()
+
+
 
 var time = 0
 
@@ -33,13 +36,17 @@ func build_maze() -> void:
 		for j in range(midWidth-chamberRadius, midWidth+chamberRadius):
 			_mazeGrid[i][j].ClearAll()
 	
-	#Creating breakable and unbreakable walls
+	#Creating breakable and unbreakable walls and adding maze as child
 	for i in range(0, _mazeWidth):
 		for j in range(0, _mazeDepth):
 			_mazeGrid[0][j].get_node("LeftWall").remove_from_group("breakable_wall")
+			_mazeGrid[0][j].get_node("LeftWall").add_to_group("unbreakable_wall")
 			_mazeGrid[_mazeWidth-1][j].get_node("RightWall").remove_from_group("breakable_wall")
+			_mazeGrid[_mazeWidth-1][j].get_node("RightWall").add_to_group("unbreakable_wall")
 			_mazeGrid[j][0].get_node("FrontWall").remove_from_group("breakable_wall")
+			_mazeGrid[j][0].get_node("FrontWall").add_to_group("unbreakable_wall")
 			_mazeGrid[j][_mazeDepth-1].get_node("BackWall").remove_from_group("breakable_wall")
+			_mazeGrid[j][_mazeDepth-1].get_node("BackWall").add_to_group("unbreakable_wall")
 			add_child(_mazeGrid[i][j])
 
 func _GenerateMaze(startCell: MazeCell):

@@ -10,6 +10,7 @@
 script = ExtResource("1_yksm7")
 
 [node name="MazeGenerator" parent="." instance=ExtResource("1_hse8o")]
+chamberRadius = 5
 
 [node name="FadeTransition" parent="." instance=ExtResource("4_3ua7j")]
 

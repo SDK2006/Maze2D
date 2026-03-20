@@ -34,3 +34,5 @@ target_position = Vector2(0, 0)
 [node name="DashCooldownTimer" type="Timer" parent="DashCast"]
 
 [node name="DashDurationTimer" type="Timer" parent="DashCast"]
+
+[node name="QuakeCooldownTimer" type="Timer" parent="."]
