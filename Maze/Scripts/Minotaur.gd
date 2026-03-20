@@ -4,7 +4,7 @@ var coords : Vector2
 
 const SPEED = 100
 
-const DASH_SPEED = 200
+const DASH_SPEED = 600
 const DASH_DURATION = 0.5
 const DASH_COOLDOWN = 1.0
 const DASH_CAST_LENGTH = 50 

@@ -3,6 +3,8 @@ extends Node2D
 @export var _mazeWidth : int
 @export var _mazeDepth : int
 
+@export var bruhTexture : CompressedTexture2D
+
 var _mazeGrid = Array()
 
 @export var chamberRadius : int
@@ -11,7 +13,10 @@ var rng = RandomNumberGenerator.new()
 
 var time = 0
 
-func _ready() -> void:
+func _ready():
+	build_maze()
+
+func build_maze() -> void:
 	for i in range(_mazeWidth):
 		_mazeGrid.append([])
 		for j in range(_mazeDepth):
@@ -19,7 +24,6 @@ func _ready() -> void:
 			newInstance.name = "MazeCell%d%d"%[i,j]
 			newInstance.position = Vector2(i*40, j*40)
 			_mazeGrid[i].append(newInstance)
-			add_child(_mazeGrid[i][j])
 	_GenerateMaze(_mazeGrid[0][0])
 	
 	#Creating Minotaur Chamber
@@ -29,8 +33,14 @@ func _ready() -> void:
 		for j in range(midWidth-chamberRadius, midWidth+chamberRadius):
 			_mazeGrid[i][j].ClearAll()
 	
-	#Creating Labyrinth Entrance
-	_mazeGrid[_mazeWidth-1][_mazeDepth-1].ClearBackWall()
+	#Creating breakable and unbreakable walls
+	for i in range(0, _mazeWidth):
+		for j in range(0, _mazeDepth):
+			_mazeGrid[0][j].get_node("LeftWall").remove_from_group("breakable_wall")
+			_mazeGrid[_mazeWidth-1][j].get_node("RightWall").remove_from_group("breakable_wall")
+			_mazeGrid[j][0].get_node("FrontWall").remove_from_group("breakable_wall")
+			_mazeGrid[j][_mazeDepth-1].get_node("BackWall").remove_from_group("breakable_wall")
+			add_child(_mazeGrid[i][j])
 
 func _GenerateMaze(startCell: MazeCell):
 	# Each stack entry is [previousCell, currentCell]
