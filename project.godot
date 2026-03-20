@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Maze2D"
-run/main_scene="uid://ggnipnsxua5c"
+run/main_scene="uid://d3rhrndd2ai0v"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -20,11 +20,17 @@ config/icon="res://icon.svg"
 GameState="*res://GameState.gd"
 WallBreakEffect="*res://Maze/WallBreakEffect.gd"
 Lobby="*res://Maze/Scripts/lobby.gd"
-NetworkHandler="*res://Multiplayer/MultiplayerScripts/NetworkHandler.gd"
 
 [display]
 
+window/size/viewport_width=576
+window/size/viewport_height=324
 window/subwindows/embed_subwindows=false
+
+[global_group]
+
+boss=""
+hero=""
 
 [input]
 

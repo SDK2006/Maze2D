@@ -11,7 +11,9 @@ func shoot():
 	
 	get_tree().current_scene.add_child(arrow)
 
-func _input(event):
+func _input(event: InputEvent) -> void:
+	if !is_multiplayer_authority(): return
 	if event.is_action_pressed("shoot") and attack_cooldown.is_stopped():
-		shoot()
+		var dir = (get_global_mouse_position() - global_position).normalized()
+		Lobby.player_shoot.rpc(name.to_int(), global_position, dir)
 		attack_cooldown.start()

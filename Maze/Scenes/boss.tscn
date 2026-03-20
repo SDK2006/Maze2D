@@ -5,24 +5,45 @@
 [ext_resource type="Texture2D" uid="uid://cdmey74jxxbjl" path="res://gfx/kenney_scribble-dungeons/PNG/Double (128px)/Characters/red_hand.png" id="2_s12fr"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_gjicc"]
-radius = 8.0
+radius = 20.024984
 
-[node name="Boss" type="CharacterBody2D"]
+[node name="Boss" type="CharacterBody2D" groups=["boss"]]
+motion_mode = 1
 script = ExtResource("1_s12fr")
+speed = 50
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.2, 0.2)
+scale = Vector2(0.5, 0.5)
 texture = ExtResource("1_xgyxn")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_gjicc")
 
 [node name="Hand_R" type="Sprite2D" parent="."]
-position = Vector2(11, -5)
-scale = Vector2(0.2, 0.2)
+position = Vector2(19, -24)
+scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_s12fr")
 
 [node name="Hand_L" type="Sprite2D" parent="."]
-position = Vector2(10, 6)
-scale = Vector2(0.2, 0.2)
+position = Vector2(13, 25)
+scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_s12fr")
+
+[node name="Stats" type="Node2D" parent="."]
+top_level = true
+
+[node name="Label" type="Label" parent="Stats"]
+offset_left = -64.0
+offset_top = -69.0
+offset_right = 64.0
+offset_bottom = -46.0
+text = "Test"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HealthBar" type="ProgressBar" parent="Stats"]
+offset_left = -31.0
+offset_top = -45.0
+offset_right = 31.0
+offset_bottom = -18.0
+value = 50.0
