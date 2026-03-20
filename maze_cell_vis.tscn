@@ -1,81 +1,84 @@
-[gd_scene load_steps=7 format=3 uid="uid://c1yqvsrek7116"]
+[gd_scene load_steps=6 format=3 uid="uid://c1yqvsrek7116"]
 
 [ext_resource type="Script" uid="uid://b7rs3lq3s8qnc" path="res://Maze/Scripts/maze_cell.gd" id="1_omyr8"]
-[ext_resource type="Texture2D" uid="uid://c53skmghkhwbc" path="res://Maze/MazeTextures/Ground.png" id="2_a2np8"]
 [ext_resource type="Texture2D" uid="uid://fkev0c1et684" path="res://gfx/kenney_scribble-dungeons/PNG/Default (64px)/wood.png" id="3_tbmyx"]
 [ext_resource type="Script" uid="uid://ciadj1bhsut2m" path="res://Maze/Scripts/IndividualWalls.gd" id="4_xblpd"]
 [ext_resource type="Texture2D" uid="uid://us56630xp2oa" path="res://gfx/kenney_scribble-dungeons/PNG/Default (64px)/wall_damaged.png" id="5_tbmyx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_omyr8"]
-size = Vector2(4, 24)
+size = Vector2(3.25, 23)
 
-[node name="MazeCell" type="Node2D" node_paths=PackedStringArray("_UnvisitedBlock", "_FrontWall", "_BackWall", "_LeftWall", "_RightWall")]
+[node name="MazeCell" type="Node2D" node_paths=PackedStringArray("_FrontWall", "_BackWall", "_LeftWall", "_RightWall")]
 script = ExtResource("1_omyr8")
-_UnvisitedBlock = NodePath("UnvisitedBlock")
 _FrontWall = NodePath("FrontWall")
 _BackWall = NodePath("BackWall")
 _LeftWall = NodePath("LeftWall")
 _RightWall = NodePath("RightWall")
-_visitedTexture = ExtResource("2_a2np8")
+_visitedTexture = ExtResource("3_tbmyx")
 
 [node name="UnvisitedBlock" type="Sprite2D" parent="."]
 position = Vector2(-5.9604645e-08, 5.9604645e-08)
-scale = Vector2(0.24218751, 0.24218751)
+scale = Vector2(0.625, 0.625)
 texture = ExtResource("3_tbmyx")
 
 [node name="FrontWall" type="StaticBody2D" parent="." groups=["breakable_wall"]]
 script = ExtResource("4_xblpd")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FrontWall"]
-position = Vector2(0, -10)
+position = Vector2(0, -19.75)
 rotation = 1.5707964
+scale = Vector2(2, 2)
 shape = SubResource("RectangleShape2D_omyr8")
 
 [node name="Sprite2D" type="Sprite2D" parent="FrontWall"]
 z_index = 1
-position = Vector2(1.4901161e-08, -6.0000005)
-scale = Vector2(0.4003906, 0.20703122)
+position = Vector2(0, -12.5)
+scale = Vector2(0.75, 0.35)
 texture = ExtResource("5_tbmyx")
 
 [node name="BackWall" type="StaticBody2D" parent="." groups=["breakable_wall"]]
 script = ExtResource("4_xblpd")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BackWall"]
-position = Vector2(0, 10)
+position = Vector2(0, 19.75)
 rotation = 1.5707964
+scale = Vector2(2, 2)
 shape = SubResource("RectangleShape2D_omyr8")
 
 [node name="Sprite2D" type="Sprite2D" parent="BackWall"]
 z_index = 1
-position = Vector2(6.1655226, -1.070987)
+position = Vector2(12.5, 0)
 rotation = 1.5707964
-scale = Vector2(0.34596837, 0.19267258)
+scale = Vector2(0.75, 0.35)
 texture = ExtResource("5_tbmyx")
 
 [node name="LeftWall" type="StaticBody2D" parent="." groups=["breakable_wall"]]
 script = ExtResource("4_xblpd")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LeftWall"]
-position = Vector2(-10, 0)
+position = Vector2(-19.75, 0)
+scale = Vector2(2, 2)
 shape = SubResource("RectangleShape2D_omyr8")
 
 [node name="Sprite2D" type="Sprite2D" parent="LeftWall"]
 z_index = 1
-position = Vector2(-1.7841039e-07, 6.2112265)
+position = Vector2(0, 12.5)
 rotation = 3.1415927
-scale = Vector2(0.3906807, 0.17933658)
+scale = Vector2(0.75, 0.35)
 texture = ExtResource("5_tbmyx")
 
 [node name="RightWall" type="StaticBody2D" parent="." groups=["breakable_wall"]]
 script = ExtResource("4_xblpd")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RightWall"]
-position = Vector2(10, 0)
+position = Vector2(19.75, 0)
+scale = Vector2(2, 2)
 shape = SubResource("RectangleShape2D_omyr8")
 
 [node name="Sprite2D" type="Sprite2D" parent="RightWall"]
+modulate = Color(0.9554214, 0.9554214, 0.9554214, 1)
 z_index = 1
-position = Vector2(-6.482074, -0.40948987)
+position = Vector2(-12.5, 0)
 rotation = 4.712389
-scale = Vector2(0.39487857, 0.18729118)
+scale = Vector2(0.75, 0.35)
 texture = ExtResource("5_tbmyx")

@@ -3,7 +3,7 @@ extends Node2D
 func _ready() -> void:
 	$FadeTransition/AnimationPlayer.play("fade_out")
 	var generator = get_node("MazeGenerator")
-	GameState.coords = Vector2(generator._mazeWidth*20-20, generator._mazeDepth*20-20)
+	GameState.coords = Vector2(generator._mazeWidth*40-20, generator._mazeDepth*40-20)
 	if GameState.playerSelection=="Minotaur":
 		var MPlayer = load("res://Maze/Scenes/Minotaur.tscn").instantiate()
 		add_child(MPlayer)

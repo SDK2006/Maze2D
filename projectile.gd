@@ -24,5 +24,6 @@ func despawn():
 func _on_body_entered(body: Node2D) -> void:
 	if (Lobby.pvp and body.is_in_group("hero") and body.id != shooter_id) or body.is_in_group("boss"):
 		body.set_health.rpc(body.get_health() - 10)
-	if body.is_in_group("breakable_wall") or body.is_in_group("enemy"):
+	if body.is_in_group("breakable_wall"):
+		#queue_free()
 		stop = true

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://kes24gqhtcfn"
-path="res://.godot/imported/WallLR.png-7b2df2b995b80cf863043fbdbfaeaeb5.ctex"
+uid="uid://ck8mdpvcvtnd4"
+path="res://.godot/imported/Walls3.0.png-637dc8829d86b5bf511a99c1ba8267a7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Maze/MazeTextures/WallLR.png"
-dest_files=["res://.godot/imported/WallLR.png-7b2df2b995b80cf863043fbdbfaeaeb5.ctex"]
+source_file="res://Maze/MazeTextures/Walls3.0.png"
+dest_files=["res://.godot/imported/Walls3.0.png-637dc8829d86b5bf511a99c1ba8267a7.ctex"]
 
 [params]
 

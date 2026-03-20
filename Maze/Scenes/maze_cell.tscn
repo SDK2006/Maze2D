@@ -1,85 +1,86 @@
-[gd_scene load_steps=7 format=3 uid="uid://c7kpkunts5rol"]
+[gd_scene load_steps=6 format=3 uid="uid://c7kpkunts5rol"]
 
 [ext_resource type="Script" uid="uid://b7rs3lq3s8qnc" path="res://Maze/Scripts/maze_cell.gd" id="1_02fc2"]
 [ext_resource type="Texture2D" uid="uid://c53skmghkhwbc" path="res://Maze/MazeTextures/Ground.png" id="2_kg367"]
-[ext_resource type="Texture2D" uid="uid://cwddrlmcp8yxl" path="res://Maze/MazeTextures/White.jpg" id="3_csdvo"]
+[ext_resource type="Texture2D" uid="uid://ck8mdpvcvtnd4" path="res://Maze/MazeTextures/Walls3.0.png" id="4_02fc2"]
 [ext_resource type="Script" uid="uid://ciadj1bhsut2m" path="res://Maze/Scripts/IndividualWalls.gd" id="4_kg367"]
-[ext_resource type="Texture2D" uid="uid://b834r5tin8crb" path="res://Maze/MazeTextures/WallLR (1).png" id="4_uy5yl"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_omyr8"]
 size = Vector2(4, 24)
 
-[node name="MazeCell" type="Node2D" node_paths=PackedStringArray("_UnvisitedBlock", "_FrontWall", "_BackWall", "_LeftWall", "_RightWall")]
+[node name="MazeCell" type="Node2D" node_paths=PackedStringArray("_FrontWall", "_BackWall", "_LeftWall", "_RightWall")]
 script = ExtResource("1_02fc2")
-_UnvisitedBlock = NodePath("UnvisitedBlock")
 _FrontWall = NodePath("FrontWall")
 _BackWall = NodePath("BackWall")
 _LeftWall = NodePath("LeftWall")
 _RightWall = NodePath("RightWall")
-_visitedTexture = ExtResource("2_kg367")
 
 [node name="UnvisitedBlock" type="Sprite2D" parent="."]
 modulate = Color(0.63015, 0.32801774, 0.31780866, 1)
 position = Vector2(-4.7683716e-07, -4.7683716e-07)
 scale = Vector2(1.25, 1.25)
-texture = ExtResource("3_csdvo")
+texture = ExtResource("2_kg367")
 
 [node name="FrontWall" type="StaticBody2D" parent="." groups=["breakable_wall"]]
 script = ExtResource("4_kg367")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FrontWall"]
-position = Vector2(0, -10)
+position = Vector2(0, -20)
 rotation = 1.5707964
+scale = Vector2(2, 2)
 shape = SubResource("RectangleShape2D_omyr8")
 
 [node name="Sprite2D" type="Sprite2D" parent="FrontWall"]
 modulate = Color(0.39215687, 0.39215687, 0.39215687, 1)
 z_index = 1
-position = Vector2(0, -10)
+position = Vector2(0, -20)
 rotation = 1.5707964
-scale = Vector2(1, 1.5)
-texture = ExtResource("4_uy5yl")
+scale = Vector2(0.5, 0.75)
+texture = ExtResource("4_02fc2")
 
 [node name="BackWall" type="StaticBody2D" parent="." groups=["breakable_wall"]]
 script = ExtResource("4_kg367")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BackWall"]
-position = Vector2(0, 10)
+position = Vector2(0, 20)
 rotation = 1.5707964
+scale = Vector2(2, 2)
 shape = SubResource("RectangleShape2D_omyr8")
 
 [node name="Sprite2D" type="Sprite2D" parent="BackWall"]
 modulate = Color(0.39215687, 0.39215687, 0.39215687, 1)
 z_index = 1
-position = Vector2(-1.1920929e-06, 10)
+position = Vector2(0, 20)
 rotation = 1.5707964
-scale = Vector2(1, 1.5)
-texture = ExtResource("4_uy5yl")
+scale = Vector2(0.5, 0.75)
+texture = ExtResource("4_02fc2")
 
 [node name="LeftWall" type="StaticBody2D" parent="." groups=["breakable_wall"]]
 script = ExtResource("4_kg367")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LeftWall"]
-position = Vector2(-10, 0)
+position = Vector2(-20, 0)
+scale = Vector2(2, 2)
 shape = SubResource("RectangleShape2D_omyr8")
 
 [node name="Sprite2D" type="Sprite2D" parent="LeftWall"]
 modulate = Color(0.39215687, 0.39215687, 0.39215687, 1)
 z_index = 1
-position = Vector2(-10, 0)
-scale = Vector2(1, 1.5)
-texture = ExtResource("4_uy5yl")
+position = Vector2(-20, 0)
+scale = Vector2(0.5, 0.75)
+texture = ExtResource("4_02fc2")
 
 [node name="RightWall" type="StaticBody2D" parent="." groups=["breakable_wall"]]
 script = ExtResource("4_kg367")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RightWall"]
-position = Vector2(10, 0)
+position = Vector2(20, 0)
+scale = Vector2(2, 2)
 shape = SubResource("RectangleShape2D_omyr8")
 
 [node name="Sprite2D" type="Sprite2D" parent="RightWall"]
 modulate = Color(0.39215687, 0.39215687, 0.39215687, 1)
 z_index = 1
-position = Vector2(10, 5.684342e-14)
-scale = Vector2(1, 1.5)
-texture = ExtResource("4_uy5yl")
+position = Vector2(20, 0)
+scale = Vector2(0.5, 0.75)
+texture = ExtResource("4_02fc2")
