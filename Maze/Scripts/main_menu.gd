@@ -22,20 +22,20 @@ func _on_fade_timer_timeout() -> void:
 
 
 func _on_theseus_pressed() -> void:
-	NetworkHandler.start_server()
+	NetworkHandler.start_client()
 	GameState.playerSelection = "Theseus"
 	$PlayerSelectionGUI.hide()
 	$ButtonManager/Choose_Player.text = "Player : Theseus"
 
 
 func _on_minotaur_pressed() -> void:
-	NetworkHandler.start_client()
+	NetworkHandler.start_server()
 	GameState.playerSelection = "Minotaur"
 	$PlayerSelectionGUI.hide()
 	$ButtonManager/Choose_Player.text = "Player : Minotaur"
 
 func _on_odysseus_pressed() -> void:
-	NetworkHandler.start_server()
+	NetworkHandler.start_client()
 	GameState.playerSelection = "Odysseus"
 	$PlayerSelectionGUI.hide()
 	$ButtonManager/Choose_Player.text = "Player : Odysseus"

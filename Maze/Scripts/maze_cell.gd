@@ -6,13 +6,11 @@ class_name MazeCell
 @export var _BackWall:Node2D
 @export var _LeftWall:Node2D
 @export var _RightWall:Node2D
-@export var _visitedTexture: CompressedTexture2D
 
 var IsVisited : bool = false
 
 func Visit():
 	IsVisited = true;
-	_UnvisitedBlock.texture = _visitedTexture
 
 func ClearAll():
 	_LeftWall.set_process_mode(Node.PROCESS_MODE_DISABLED)

@@ -17,7 +17,7 @@ func _ready() -> void:
 		for j in range(_mazeDepth):
 			var newInstance = _MazeCellPrefab.instantiate()
 			newInstance.name = "MazeCell%d%d"%[i,j]
-			newInstance.position = Vector2(i*20, j*20)
+			newInstance.position = Vector2(i*40, j*40)
 			_mazeGrid[i].append(newInstance)
 			add_child(_mazeGrid[i][j])
 	_GenerateMaze(_mazeGrid[0][0])
@@ -64,8 +64,8 @@ func _GetNextUnvisitedCell(currentCell: MazeCell):
 		return null
 
 func _GetUnvisitedCells(currentCell: MazeCell):
-	var x: int = int(currentCell.position.x / 20)
-	var y: int = int(currentCell.position.y / 20)
+	var x: int = int(currentCell.position.x / 40)
+	var y: int = int(currentCell.position.y /40)
 	var cells = []
 
 	if x + 1 < _mazeWidth:
@@ -84,6 +84,7 @@ func _GetUnvisitedCells(currentCell: MazeCell):
 		var cellToFront = _mazeGrid[x][y-1]
 		if not cellToFront.IsVisited:
 			cells.append(cellToFront)
+	print("Bruh")
 	return cells
 
 func _ClearWalls(previousCell: MazeCell, currentCell: MazeCell):
