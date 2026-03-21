@@ -1,7 +1,9 @@
-[gd_scene load_steps=64 format=3 uid="uid://cavsvjnghfk3i"]
+[gd_scene load_steps=70 format=3 uid="uid://cavsvjnghfk3i"]
 
 [ext_resource type="Script" uid="uid://c1gtns7sitdqj" path="res://Maze/Scripts/boss.gd" id="1_s12fr"]
 [ext_resource type="Texture2D" uid="uid://cqyxc00f423pc" path="res://Animations/MinotaurAnimations/Minotaur - Sprite Sheet (1).png" id="2_xgyxn"]
+[ext_resource type="Texture2D" uid="uid://dc6bvcvge2ne" path="res://dash2.0.png" id="3_gjicc"]
+[ext_resource type="Texture2D" uid="uid://b54l4prpakym5" path="res://Maze/MazeTextures/White_highres.jpg" id="4_fxkh7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_05kpr"]
 
@@ -20,6 +22,8 @@ properties/2/replication_mode = 1
 properties/3/path = NodePath("AnimatedSprite2D:frame")
 properties/3/spawn = true
 properties/3/replication_mode = 1
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gjicc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_s12fr"]
 atlas = ExtResource("2_xgyxn")
@@ -279,8 +283,8 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_bovmd")
 }],
-"loop": true,
-"name": &"atk",
+"loop": false,
+"name": &"attack",
 "speed": 5.0
 }, {
 "frames": [{
@@ -478,13 +482,73 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="Animation" id="Animation_om1el"]
+resource_name = "cooldown"
+length = 6.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureProgressBar:max_value")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"update": 0,
+"values": []
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TextureProgressBar:value")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [100.0, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_ubqr4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureProgressBar:max_value")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [100.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TextureProgressBar:value")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [100.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_uykam"]
+_data = {
+&"RESET": SubResource("Animation_ubqr4"),
+&"cooldown": SubResource("Animation_om1el")
+}
+
 [node name="Boss" type="CharacterBody2D" groups=["boss"]]
 motion_mode = 1
 script = ExtResource("1_s12fr")
-speed = 200
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-scale = Vector2(4, 4)
+scale = Vector2(4.0157127, 4.00342)
 shape = SubResource("RectangleShape2D_05kpr")
 
 [node name="Stats" type="Node2D" parent="."]
@@ -515,16 +579,62 @@ shape = SubResource("RectangleShape2D_s12fr")
 target_position = Vector2(0, 1)
 
 [node name="DashCooldownTimer" type="Timer" parent="DashCast"]
+wait_time = 6.0
 
 [node name="DashDurationTimer" type="Timer" parent="DashCast"]
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_s12fr")
 
+[node name="Hurtbox" type="Area2D" parent="."]
+position = Vector2(40, -11)
+scale = Vector2(3.5835187, 6.2866325)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("RectangleShape2D_gjicc")
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, 8)
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_xgyxn")
-animation = &"dash"
-frame_progress = 0.5486258
+animation = &"attack"
+frame = 8
+frame_progress = 1.0
 speed_scale = 2.0
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="DashUI" type="Sprite2D" parent="CanvasLayer/Control"]
+clip_children = 2
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("3_gjicc")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="CanvasLayer/Control/DashUI"]
+modulate = Color(1, 0, 0, 0.5137255)
+offset_left = -259.99976
+offset_top = -259.99994
+offset_right = 260.0
+offset_bottom = 259.99994
+value = 100.0
+fill_mode = 4
+nine_patch_stretch = true
+texture_progress = ExtResource("4_fxkh7")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/Control/DashUI"]
+libraries = {
+&"": SubResource("AnimationLibrary_uykam")
+}
+
+[node name="AttackCooldown" type="Timer" parent="."]

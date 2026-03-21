@@ -3,29 +3,44 @@ extends Player
 const SPEED = 200
 const DASH_SPEED = 2400
 const DASH_DURATION = 0.5
-const DASH_COOLDOWN = 1.0
+const DASH_COOLDOWN = 6
 const DASH_CAST_LENGTH = 50
-
-const EARTHQUAKE_RANGE = 200.0
-const EARTHQUAKE_COOLDOWN = 5.0
-const EARTHQUAKE_STUN_DURATION = 2.0
 
 var is_dashing := false
 var dash_direction := Vector2.ZERO
 var can_dash := true
-var can_quake := true
+var is_attacking := false
+var can_attack := true
+
+const MELEE_DAMAGE = 20
+const MELEE_COOLDOWN = 0.8
+
+@onready var DashProgress = $CanvasLayer/Control/DashUI
 
 @onready var dash_cast: ShapeCast2D = $DashCast
 @onready var dash_cooldown_timer: Timer = $DashCast/DashCooldownTimer
 @onready var dash_duration_timer: Timer = $DashCast/DashDurationTimer
-@onready var sprite = $AnimatedSprite2D
+@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var attack_cooldown_timer: Timer = $AttackCooldown
+@onready var melee_hitbox: Area2D = $Hurtbox
 
 func enter_tree():
 	set_multiplayer_authority(int(name))
 
 func _ready() -> void:
 	position = GameState.coords / 2
-
+	
+	DashProgress.get_node("TextureProgressBar").value = 0
+	
+	if !is_multiplayer_authority():	DashProgress.hide()
+	
+	melee_hitbox.monitoring = false
+	melee_hitbox.body_entered.connect(_on_melee_hit)
+	sprite.animation_finished.connect(_on_animation_finished)
+	attack_cooldown_timer.wait_time = MELEE_COOLDOWN
+	attack_cooldown_timer.one_shot = true
+	attack_cooldown_timer.timeout.connect(func(): can_attack = true)
+	
 	var shape = RectangleShape2D.new()
 	shape.size = Vector2(20, 20)
 	dash_cast.shape = shape
@@ -39,6 +54,8 @@ func _ready() -> void:
 	dash_duration_timer.wait_time = DASH_DURATION
 	dash_duration_timer.one_shot = true
 	dash_duration_timer.timeout.connect(_on_dash_finished)
+	
+
 
 	var cam = get_node_or_null("Camera2D")
 	if cam:
@@ -49,31 +66,78 @@ func _ready() -> void:
 			cam.enabled = false
 
 func _physics_process(_delta: float) -> void:
-	if !is_multiplayer_authority(): return
-	var direction = Input.get_vector("left", "right", "up", "down").normalized()
-	velocity = direction * speed
+	if not is_multiplayer_authority():
+		return
+	if is_attacking:
+		velocity = Vector2.ZERO
+		move_and_slide()
+		return
 	if is_dashing:
 		_process_dash()
 	else:
 		_process_movement()
+		_check_attack_input()
 	move_and_slide()
+
+func _check_attack_input() -> void:
+	if Input.is_action_just_pressed("attack") and can_attack and not is_attacking:
+		_start_attack()
 
 func _process_movement() -> void:
 	var direction := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
-
+	
 	if direction != Vector2.ZERO:
 		velocity = direction * SPEED
 		sprite.play("walk")
 		if direction.x < 0:
 			sprite.flip_h = true
+			melee_hitbox.position.x = -40
 		elif direction.x > 0:
 			sprite.flip_h = false
+			melee_hitbox.position.x = 40
 	else:
 		velocity = Vector2.ZERO
 		sprite.play("idle")
 
+
+
+
 	if Input.is_action_just_pressed("dash") and can_dash:
 		_start_dash(direction if direction != Vector2.ZERO else Vector2.RIGHT.rotated(rotation))
+
+func _start_attack() -> void:
+	is_attacking = true
+	can_attack = false
+	sprite.play("attack")
+	_sync_attack.rpc()
+	# Enable hitbox at 40% through animation
+	var frame_count = sprite.sprite_frames.get_frame_count("attack")
+	var fps = sprite.sprite_frames.get_animation_speed("attack")
+	var mid_time = (frame_count / fps) * 0.4
+	await get_tree().create_timer(mid_time).timeout
+	melee_hitbox.monitoring = true
+	await get_tree().create_timer(0.1).timeout
+	melee_hitbox.monitoring = false
+
+func _on_animation_finished() -> void:
+	if sprite.animation == "attack":
+		is_attacking = false
+		attack_cooldown_timer.start()
+		sprite.play("idle")
+
+func _on_melee_hit(body: Node2D) -> void:
+	if not multiplayer.is_server():
+		return
+	if body.has_method("take_damage"):
+		body.take_damage.rpc(MELEE_DAMAGE)
+
+@rpc("authority", "call_remote", "reliable")
+func _sync_attack() -> void:
+	sprite.play("attack")
+
+
+
+
 
 
 func _process_dash() -> void:
@@ -92,6 +156,7 @@ func _start_dash(direction: Vector2) -> void:
 	dash_direction = direction.normalized()
 	_break_walls_ahead()
 	dash_duration_timer.start()
+	DashProgress.get_node("AnimationPlayer").play("cooldown")
 	dash_cooldown_timer.start()
 
 func _on_dash_finished() -> void:
