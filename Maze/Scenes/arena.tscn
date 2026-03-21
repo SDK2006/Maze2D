@@ -13,7 +13,7 @@ scale = Vector2(4, 4)
 chamberRadius = 5
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://cavsvjnghfk3i", "uid://h0p073vq2l41", "uid://kq5iseuk86o6", "uid://b553xh1qiasls")
+_spawnable_scenes = PackedStringArray("uid://cavsvjnghfk3i", "uid://h0p073vq2l41", "<null>", "uid://b553xh1qiasls")
 spawn_path = NodePath("..")
 
 [node name="UI" type="CanvasLayer" parent="."]
