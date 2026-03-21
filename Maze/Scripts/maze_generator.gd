@@ -12,12 +12,15 @@ var _mazeGrid = Array()
 
 var rng = RandomNumberGenerator.new()
 
-
-
-var time = 0
-
 func _ready():
-	build_maze()
+	if multiplayer.is_server():
+		Server.maze_seed = rng.seed
+		build_maze()
+	else:
+		await get_tree().create_timer(0.5).timeout # TEMPORARY FIX ONLY
+		rng.seed = Server.maze_seed
+		print(rng.seed)
+		build_maze()
 
 func build_maze() -> void:
 	for i in range(_mazeWidth):
@@ -76,7 +79,7 @@ func _GenerateMaze(startCell: MazeCell):
 func _GetNextUnvisitedCell(currentCell: MazeCell):
 	var unvisitedCells = _GetUnvisitedCells(currentCell)
 	if unvisitedCells.size() != 0:
-		return unvisitedCells.pick_random()
+		return unvisitedCells[rng.randi_range(0, unvisitedCells.size() - 1)]
 	else:
 		return null
 
@@ -101,7 +104,6 @@ func _GetUnvisitedCells(currentCell: MazeCell):
 		var cellToFront = _mazeGrid[x][y-1]
 		if not cellToFront.IsVisited:
 			cells.append(cellToFront)
-	print("Bruh")
 	return cells
 
 func _ClearWalls(previousCell: MazeCell, currentCell: MazeCell):

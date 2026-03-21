@@ -1,55 +1,24 @@
-[gd_scene load_steps=5 format=3 uid="uid://d3rhrndd2ai0v"]
+[gd_scene load_steps=3 format=3 uid="uid://d3rhrndd2ai0v"]
 
 [ext_resource type="Script" uid="uid://dca1patm0sku2" path="res://Maze/Scenes/arena.gd" id="1_mjk48"]
-[ext_resource type="PackedScene" uid="uid://cavsvjnghfk3i" path="res://Maze/Scenes/boss.tscn" id="2_6cjps"]
-[ext_resource type="PackedScene" uid="uid://h0p073vq2l41" path="res://Maze/Scenes/archer.tscn" id="3_1b8jf"]
-[ext_resource type="Texture2D" uid="uid://e4vg1xq8fglv" path="res://gfx/kenney_scribble-dungeons/Sample.png" id="4_1b8jf"]
+[ext_resource type="PackedScene" uid="uid://cc54gv3vwcd6x" path="res://Maze/Scenes/maze_generator.tscn" id="4_0v285"]
 
 [node name="Arena" type="Node2D"]
 script = ExtResource("1_mjk48")
-boss_scene = ExtResource("2_6cjps")
-archer_scene = ExtResource("3_1b8jf")
+
+[node name="MazeGenerator" parent="." instance=ExtResource("4_0v285")]
+z_index = -1
+scale = Vector2(4, 4)
+chamberRadius = 5
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("uid://cavsvjnghfk3i", "uid://h0p073vq2l41", "uid://kq5iseuk86o6")
 spawn_path = NodePath("..")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-modulate = Color(1, 1, 1, 0.18039216)
-position = Vector2(51.000004, 279.00003)
-scale = Vector2(1.1639434, 1.1461165)
-texture = ExtResource("4_1b8jf")
-
-[node name="UI" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 576.0
-offset_bottom = 324.0
-
-[node name="VBoxContainer" type="HBoxContainer" parent="UI"]
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -31.0
-grow_horizontal = 2
-grow_vertical = 0
-
-[node name="Server" type="Button" parent="UI/VBoxContainer"]
-layout_mode = 2
-text = "Server"
-
-[node name="Client" type="Button" parent="UI/VBoxContainer"]
-layout_mode = 2
-text = "Client"
+[node name="UI" type="CanvasLayer" parent="."]
 
 [node name="Label" type="Label" parent="UI"]
-layout_mode = 0
 offset_right = 504.0
 offset_bottom = 23.0
 text = "Test"
 autowrap_mode = 2
-
-[connection signal="pressed" from="UI/VBoxContainer/Server" to="." method="_on_server_pressed"]
-[connection signal="pressed" from="UI/VBoxContainer/Client" to="." method="_on_client_pressed"]

@@ -1,0 +1,94 @@
+[gd_scene load_steps=2 format=3 uid="uid://duro77l1takb6"]
+
+[ext_resource type="Script" uid="uid://bn7o102g0oy8x" path="res://menu.gd" id="1_lti8b"]
+
+[node name="menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_lti8b")
+
+[node name="NetworkContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ServerContainer" type="VBoxContainer" parent="NetworkContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="NetworkContainer/ServerContainer"]
+layout_mode = 2
+text = "Play as Minotaur"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="NetworkContainer/ServerContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ip_edit" type="TextEdit" parent="NetworkContainer/ServerContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "localhost"
+placeholder_text = "IP Address"
+editable = false
+
+[node name="port_edit" type="TextEdit" parent="NetworkContainer/ServerContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "9999"
+placeholder_text = "Port"
+
+[node name="CheckBox" type="CheckBox" parent="NetworkContainer/ServerContainer"]
+layout_mode = 2
+text = "Friendly Fire"
+
+[node name="StartServer" type="Button" parent="NetworkContainer/ServerContainer"]
+layout_mode = 2
+size_flags_vertical = 10
+text = "Start Server"
+
+[node name="ClientContainer" type="VBoxContainer" parent="NetworkContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="NetworkContainer/ClientContainer"]
+layout_mode = 2
+text = "Play as Hero"
+horizontal_alignment = 1
+
+[node name="ItemList" type="ItemList" parent="NetworkContainer/ClientContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+item_count = 2
+item_0/text = "Warrior"
+item_1/text = "Archer"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="NetworkContainer/ClientContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ip_edit" type="TextEdit" parent="NetworkContainer/ClientContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "localhost"
+placeholder_text = "IP Address"
+
+[node name="port_edit" type="TextEdit" parent="NetworkContainer/ClientContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "9999"
+placeholder_text = "Port"
+
+[node name="StartClient" type="Button" parent="NetworkContainer/ClientContainer"]
+layout_mode = 2
+text = "Start Client"
+
+[connection signal="pressed" from="NetworkContainer/ServerContainer/StartServer" to="." method="_on_start_server_pressed"]
+[connection signal="pressed" from="NetworkContainer/ClientContainer/StartClient" to="." method="_on_start_client_pressed"]

@@ -14,6 +14,7 @@ z_index = 1
 motion_mode = 1
 script = ExtResource("1_1c86c")
 arrow_scene = ExtResource("2_nsmju")
+speed = 300
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 scale = Vector2(0.5, 0.5)
@@ -67,3 +68,7 @@ offset_top = -45.0
 offset_right = 31.0
 offset_bottom = -18.0
 value = 50.0
+
+[node name="Camera2D" type="Camera2D" parent="."]
+enabled = false
+zoom = Vector2(0.5, 0.5)
