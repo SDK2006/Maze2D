@@ -37,9 +37,9 @@ func _ready() -> void:
 		func(id: int) -> void:
 			if multiplayer.is_server():
 				add_player(id, "nil", 100, 0) # Adds player to server player list
-				if id != 1:
-					sync_players.rpc_id(id, players) # Syncs server player list to client player list
-					set_maze_seed.rpc_id(id, maze_seed)
+				for _id in players:
+					sync_players.rpc_id(_id, players) # Syncs server player list to client player list
+				if id != 1: set_maze_seed.rpc_id(id, maze_seed)
 				print(id, " has joined.")
 				if id == multiplayer.get_unique_id(): client_ready.emit()
 				spawn_player(id)
@@ -48,6 +48,8 @@ func _ready() -> void:
 		func(id: int) -> void:
 			print(id, " has left.")
 			Server.players.erase(id)
+			for _id in players:
+				sync_players.rpc_id(_id, players)
 			get_tree().current_scene.get_node(str(id)).queue_free() # ERROR PRONE
 	)
 

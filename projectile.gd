@@ -11,7 +11,6 @@ var stop = false
 
 func _ready() -> void:
 	if !multiplayer.is_server(): monitoring = false
-	
 	await get_tree().create_timer(5).timeout
 	despawn()
 

@@ -37,7 +37,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "localhost"
 placeholder_text = "IP Address"
-editable = false
 
 [node name="port_edit" type="TextEdit" parent="NetworkContainer/ServerContainer/HBoxContainer"]
 layout_mode = 2

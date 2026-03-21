@@ -14,11 +14,8 @@ func _enter_tree() -> void:
 
 @rpc("any_peer", "call_local")
 func set_health(new_value: int) -> void:
-	if !Server.players:
-		print("Returned empty")
-		return
+	if !Server.players: return
 	Server.players[id].health = new_value
-	$Stats/HealthBar.value = new_value
 	if Server.players[id].health <= 0: die()
 	
 func get_health() -> int: return Server.players[id].health
@@ -32,6 +29,7 @@ func _ready():
 
 func _process(_delta: float) -> void:
 	$Stats.global_position = global_position
+	if Server.players.has(id): $Stats/HealthBar.value = Server.players[id].health
 
 func _physics_process(_delta: float) -> void:
 	if !is_multiplayer_authority(): return
