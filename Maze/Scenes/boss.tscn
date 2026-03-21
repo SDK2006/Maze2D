@@ -22,8 +22,15 @@ properties/2/replication_mode = 1
 properties/3/path = NodePath("AnimatedSprite2D:frame")
 properties/3/spawn = true
 properties/3/replication_mode = 1
+properties/4/path = NodePath("AnimatedSprite2D:flip_h")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+properties/5/path = NodePath("AnimatedSprite2D:flip_v")
+properties/5/spawn = true
+properties/5/replication_mode = 1
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gjicc"]
+size = Vector2(35.14286, 20)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_s12fr"]
 atlas = ExtResource("2_xgyxn")
@@ -482,6 +489,33 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="Animation" id="Animation_ubqr4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureProgressBar:max_value")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [100.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TextureProgressBar:value")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [100.0]
+}
+
 [sub_resource type="Animation" id="Animation_om1el"]
 resource_name = "cooldown"
 length = 6.0
@@ -508,33 +542,6 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [100.0, 0.0]
-}
-
-[sub_resource type="Animation" id="Animation_ubqr4"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("TextureProgressBar:max_value")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [100.0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("TextureProgressBar:value")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [100.0]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_uykam"]
@@ -574,21 +581,27 @@ value = 50.0
 enabled = false
 
 [node name="DashCast" type="ShapeCast2D" parent="."]
+position = Vector2(-20, 0)
 scale = Vector2(4, 4)
 shape = SubResource("RectangleShape2D_s12fr")
 target_position = Vector2(0, 1)
 
 [node name="DashCooldownTimer" type="Timer" parent="DashCast"]
 wait_time = 6.0
+one_shot = true
 
 [node name="DashDurationTimer" type="Timer" parent="DashCast"]
+one_shot = true
+
+[node name="DashWaitTimer" type="Timer" parent="DashCast"]
+one_shot = true
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_s12fr")
 
 [node name="Hurtbox" type="Area2D" parent="."]
-position = Vector2(40, -11)
-scale = Vector2(3.5835187, 6.2866325)
+position = Vector2(40, 0)
+scale = Vector2(2, 6)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
 shape = SubResource("RectangleShape2D_gjicc")
@@ -597,9 +610,8 @@ shape = SubResource("RectangleShape2D_gjicc")
 position = Vector2(0, 8)
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_xgyxn")
-animation = &"attack"
-frame = 8
-frame_progress = 1.0
+animation = &"dash_prep"
+frame_progress = 0.44372255
 speed_scale = 2.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]

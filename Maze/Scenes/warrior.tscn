@@ -1,15 +1,17 @@
-[gd_scene load_steps=11 format=3 uid="uid://b553xh1qiasls"]
+[gd_scene load_steps=16 format=3 uid="uid://b553xh1qiasls"]
 
 [ext_resource type="Script" uid="uid://dhp584eyku52y" path="res://Maze/Scripts/warrior.gd" id="1_2s6xd"]
 [ext_resource type="Texture2D" uid="uid://bhtjrn54s8k74" path="res://gfx/kenney_scribble-dungeons/PNG/Default (64px)/Characters/yellow_character.png" id="3_x5gpc"]
 [ext_resource type="Texture2D" uid="uid://cui0tdmagmp8k" path="res://gfx/kenney_scribble-dungeons/PNG/Default (64px)/Characters/yellow_hand.png" id="4_j6m0v"]
+[ext_resource type="Texture2D" uid="uid://c8o7ccmsc0wrk" path="res://buff2.0.png" id="5_x5gpc"]
 [ext_resource type="Texture2D" uid="uid://b8x6uypqaulu" path="res://gfx/kenney_scribble-dungeons/PNG/Default (64px)/Items/weapon_longsword.png" id="5_x8y6n"]
+[ext_resource type="Texture2D" uid="uid://b54l4prpakym5" path="res://Maze/MazeTextures/White_highres.jpg" id="6_2mk7r"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qblxv"]
 radius = 4.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x5gpc"]
-size = Vector2(8.734289, 2.5442226)
+size = Vector2(21.734135, 7.899943)
 
 [sub_resource type="Animation" id="Animation_rqquk"]
 length = 0.001
@@ -105,9 +107,71 @@ properties/1/path = NodePath(".:rotation")
 properties/1/spawn = true
 properties/1/replication_mode = 1
 
+[sub_resource type="Animation" id="Animation_ubqr4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureProgressBar:max_value")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [100.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TextureProgressBar:value")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [100.0]
+}
+
+[sub_resource type="Animation" id="Animation_om1el"]
+resource_name = "cooldown"
+length = 6.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureProgressBar:max_value")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"update": 0,
+"values": []
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TextureProgressBar:value")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [100.0, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_uykam"]
+_data = {
+&"RESET": SubResource("Animation_ubqr4"),
+&"cooldown": SubResource("Animation_om1el")
+}
+
 [node name="Warrior" type="CharacterBody2D"]
 z_index = 1
 script = ExtResource("1_2s6xd")
+speed = 500
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_qblxv")
@@ -118,6 +182,7 @@ scale = Vector2(0.6, 0.6)
 texture = ExtResource("3_x5gpc")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+scale = Vector2(-4.1736298, -14.205626)
 position_smoothing_enabled = true
 position_smoothing_speed = 10.0
 
@@ -158,8 +223,8 @@ metadata/_edit_lock_ = true
 [node name="Hurtbox" type="Area2D" parent="Sword"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sword/Hurtbox"]
-position = Vector2(7.0344925, 0.07275081)
-scale = Vector2(1.0000011, 1.0000011)
+position = Vector2(11.039625, 0.5329007)
+scale = Vector2(1.0000012, 1.0000012)
 shape = SubResource("RectangleShape2D_x5gpc")
 metadata/_edit_lock_ = true
 
@@ -190,4 +255,39 @@ value = 50.0
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_2s6xd")
 
+[node name="BuffCooldownTimer" type="Timer" parent="."]
+wait_time = 8.0
+one_shot = true
+
+[node name="BuffDurationTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="DashUI" type="Sprite2D" parent="CanvasLayer"]
+clip_children = 2
+position = Vector2(226.99998, 123.99999)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("5_x5gpc")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="CanvasLayer/DashUI"]
+modulate = Color(1, 0, 0, 0.5137255)
+offset_left = -259.99976
+offset_top = -259.99994
+offset_right = 260.0
+offset_bottom = 259.99994
+value = 100.0
+fill_mode = 4
+nine_patch_stretch = true
+texture_progress = ExtResource("6_2mk7r")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/DashUI"]
+libraries = {
+&"": SubResource("AnimationLibrary_uykam")
+}
+
 [connection signal="body_entered" from="Sword/Hurtbox" to="." method="_on_hurtbox_body_entered"]
+[connection signal="timeout" from="BuffCooldownTimer" to="." method="_on_buff_cooldown_timer_timeout"]
+[connection signal="timeout" from="BuffDurationTimer" to="." method="_on_buff_duration_timer_timeout"]

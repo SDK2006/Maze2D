@@ -26,6 +26,7 @@ func _ready():
 	$Stats/Label.text = name
 	if Server.players:
 		set_health.rpc(get_health())
+	
 
 func _process(_delta: float) -> void:
 	$Stats.global_position = global_position

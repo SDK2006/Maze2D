@@ -14,15 +14,15 @@ z_index = 1
 motion_mode = 1
 script = ExtResource("1_1c86c")
 arrow_scene = ExtResource("2_nsmju")
-speed = 300
+speed = 600
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-scale = Vector2(0.5, 0.5)
+scale = Vector2(0.6, 0.6)
 shape = SubResource("CircleShape2D_qblxv")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(1.9073486e-06, -4.7683716e-07)
-scale = Vector2(0.5, 0.5)
+scale = Vector2(0.6, 0.6)
 texture = ExtResource("3_8a7jt")
 
 [node name="Bow" type="Node2D" parent="."]

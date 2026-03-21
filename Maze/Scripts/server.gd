@@ -61,7 +61,7 @@ func add_player(id: int, username: String, health: int, score: int):
 	}
 	
 func spawn_player(id : int) -> void:
-	var hero = archer_scene.instantiate()
+	var hero = warrior_scene.instantiate()
 	hero.name = str(id)
 	spawner.get_node(spawner.spawn_path).add_child(hero)
 	
