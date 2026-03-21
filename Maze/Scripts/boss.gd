@@ -109,7 +109,8 @@ func _break_walls_ahead() -> void:
 	for i in dash_cast.get_collision_count():
 		var collider = dash_cast.get_collider(i)
 		if collider is StaticBody2D and collider.is_in_group("breakable_wall"):
-			_destroy_wall.rpc(get_path_to(collider))
+			_spawn_break_effect(collider)
+			collider.ClearWall()
 
 @rpc("authority", "call_local", "reliable")
 func _destroy_wall(wall_path: NodePath) -> void:

@@ -3,7 +3,7 @@ extends Node2D
 # Shard count and how far they fly
 const SHARD_COUNT = 8
 const SHARD_SPEED_MIN = 80.0
-const SHARD_SPEED_MAX = 220.0
+const SHARD_SPEED_MAX = 660
 const SHARD_LIFETIME = 0.5
 
 const SHARD_COLOR = Color(0.6, 0.45, 0.3)
@@ -21,7 +21,7 @@ func _make_shard() -> Node2D:
 	var shard = Node2D.new()
 	
 	var rect = ColorRect.new()
-	rect.size = Vector2(randf_range(6, 18), randf_range(6, 18))
+	rect.size = Vector2(randf_range(24, 64), randf_range(24, 64))
 	rect.position = -rect.size / 2.0
 	rect.color = SHARD_COLOR.darkened(randf_range(0.0, 0.3))
 	shard.add_child(rect)

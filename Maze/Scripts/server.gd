@@ -8,6 +8,7 @@ var arena_scene := preload("res://Maze/Scenes/arena.tscn")
 var boss_scene := preload("res://Maze/Scenes/boss.tscn")
 var archer_scene := preload("res://Maze/Scenes/archer.tscn")
 var arrow_scene := preload("res://Maze/Scenes/arrow.tscn")
+var warrior_scene := preload("res://Maze/Scenes/warrior.tscn")
 
 var spawner : MultiplayerSpawner
 
@@ -78,13 +79,21 @@ func update_player(id : int, pos: Vector2, rot: float):
 	player.global_rotation = rot
 	
 @rpc("any_peer", "call_local")
-func player_shoot(id: int, origin: Vector2, direction: Vector2):
+func player_shoot(id: int, origin: Vector2, direction: Vector2, specialArrow):
 	var arrow = arrow_scene.instantiate()
 	arrow.shooter_id = id
 	arrow.global_position = origin
 	arrow.global_rotation = direction.angle()
 	arrow.direction = direction
-	get_tree().current_scene.add_child(arrow)
+	if specialArrow == 5:
+		arrow.scale = Vector2(2, 2)
+		arrow.get_node("Sprite2D").modulate = Color("ffff00ff")
+		arrow.dmg = 20
+		get_tree().current_scene.add_child(arrow)
+		print("The arrows came lool")
+	else:
+		get_tree().current_scene.add_child(arrow)
+		print(specialArrow)
 	
 @rpc("authority", "call_remote")
 func set_maze_seed(new_seed: int):
