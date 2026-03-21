@@ -11,6 +11,7 @@ const SHARD_COLOR = Color(0.6, 0.45, 0.3)
 var _shards: Array = []
 
 func explode() -> void:
+	$AudioStreamPlayer2D.play()
 	for i in SHARD_COUNT:
 		var shard = _make_shard()
 		add_child(shard)

@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://d3rhrndd2ai0v"]
+[gd_scene load_steps=4 format=3 uid="uid://d3rhrndd2ai0v"]
 
 [ext_resource type="Script" uid="uid://dca1patm0sku2" path="res://Maze/Scenes/arena.gd" id="1_mjk48"]
+[ext_resource type="AudioStream" uid="uid://co4sn77vpfhpm" path="res://Audio/Labyrinth (1).mp3" id="3_6cjps"]
 [ext_resource type="PackedScene" uid="uid://cc54gv3vwcd6x" path="res://Maze/Scenes/maze_generator.tscn" id="4_0v285"]
 
 [node name="Arena" type="Node2D"]
@@ -22,3 +23,7 @@ offset_right = 504.0
 offset_bottom = 23.0
 text = "Test"
 autowrap_mode = 2
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_6cjps")
+autoplay = true
