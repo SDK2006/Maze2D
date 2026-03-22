@@ -611,7 +611,7 @@ position = Vector2(0, 8)
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_xgyxn")
 animation = &"dash_prep"
-frame_progress = 0.44372255
+frame_progress = 0.5681309
 speed_scale = 2.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]

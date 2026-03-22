@@ -45,13 +45,17 @@ func _ready() -> void:
 				spawn_player(id)
 	)
 	multiplayer.peer_disconnected.connect(
-		func(id: int) -> void:
-			print(id, " has left.")
-			Server.players.erase(id)
-			for _id in players:
+	func(id: int) -> void:
+		print(id, " has left.")
+		Server.players.erase(id)
+		# Sync to remaining players only
+		for _id in players.keys():
+			if _id != id:
 				sync_players.rpc_id(_id, players)
-			get_tree().current_scene.get_node(str(id)).queue_free() # ERROR PRONE
-	)
+		var player = get_tree().current_scene.get_node_or_null(str(id))
+		if is_instance_valid(player):
+			player.queue_free()
+)
 
 func add_player(id: int, username: String, health: int, score: int):
 	players[id] = {
@@ -61,25 +65,27 @@ func add_player(id: int, username: String, health: int, score: int):
 	}
 	
 func spawn_player(id : int) -> void:
-	var hero = warrior_scene.instantiate()
+	var hero = archer_scene.instantiate()
 	hero.name = str(id)
-	spawner.get_node(spawner.spawn_path).add_child(hero)
+	add_child(hero)
 	
 func spawn_boss(id := 1) -> void:
 	var boss = boss_scene.instantiate()
 	boss.name = str(id)
-	spawner.get_node(spawner.spawn_path).add_child(boss)
+	spawner.get_node_or_null(spawner.spawn_path).add_child(boss)
 
 @rpc("authority")
 func sync_players(server_players: Dictionary) -> void:
 	players = server_players
 
 @rpc("any_peer", "call_local")
-func update_player(id : int, pos: Vector2, rot: float):
-	var player = get_tree().current_scene.get_node(str(id))
+func update_player(id: int, pos: Vector2, rot: float) -> void:
+	var player = get_tree().current_scene.get_node_or_null(str(id))
+	if not is_instance_valid(player):
+		return
 	player.global_position = pos
 	player.global_rotation = rot
-	
+
 @rpc("any_peer", "call_local")
 func player_shoot(id: int, origin: Vector2, direction: Vector2, specialArrow):
 	var arrow = arrow_scene.instantiate()
@@ -100,4 +106,3 @@ func player_shoot(id: int, origin: Vector2, direction: Vector2, specialArrow):
 @rpc("authority", "call_remote")
 func set_maze_seed(new_seed: int):
 	maze_seed = new_seed
-	

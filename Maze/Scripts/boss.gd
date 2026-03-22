@@ -125,7 +125,7 @@ func _on_animation_finished() -> void:
 		sprite.play("idle")
 
 func _on_melee_hit(body: Node2D) -> void:
-	if not multiplayer.is_server():
+	if not is_multiplayer_authority():
 		return
 	if body.is_in_group("hero"):
 		body.set_health.rpc(body.get_health() - MELEE_DAMAGE)
@@ -145,9 +145,14 @@ func _process_dash() -> void:
 	for i in get_slide_collision_count():
 		var collision = get_slide_collision(i)
 		var collider = collision.get_collider()
+		if not is_instance_valid(collider):
+			continue
+		if collider.is_in_group("hero"):
+			collider.set_health.rpc(collider.get_health() - MELEE_DAMAGE * 2)
 		if collider is StaticBody2D and collider.is_in_group("breakable_wall"):
 			_spawn_break_effect(collider)
-			_destroy_wall.rpc(get_path_to(collider))
+			# Use scene root path not relative path
+			_destroy_wall.rpc(get_tree().current_scene.get_path_to(collider))
 
 func _start_dash(direction: Vector2) -> void:
 	if is_dash_waiting:
@@ -187,13 +192,11 @@ func _break_walls_ahead() -> void:
 		var collider = dash_cast.get_collider(i)
 		if collider is StaticBody2D and collider.is_in_group("breakable_wall"):
 			_spawn_break_effect(collider)
-			collider.ClearWall()
-		if collider.is_in_group("hero"):
-			collider.set_health.rpc(collider.get_health() - MELEE_DAMAGE*2)
+			_destroy_wall.rpc(get_tree().current_scene.get_path_to(collider))
 
 @rpc("authority", "call_local", "reliable")
 func _destroy_wall(wall_path: NodePath) -> void:
-	var wall = get_node_or_null(wall_path)
+	var wall = get_tree().current_scene.get_node_or_null(wall_path)
 	if wall == null:
 		return
 	_spawn_break_effect(wall)

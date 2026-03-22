@@ -39,7 +39,8 @@ func _physics_process(_delta: float) -> void:
 	if get_window().has_focus(): look_at(get_global_mouse_position())
 	move_and_slide()
 	
-	Server.update_player.rpc(name.to_int(), global_position, global_rotation)
+	if Server.players.has(id):
+		Server.update_player.rpc(name.to_int(), global_position, global_rotation)
 
 func die():
 	Server.players.erase(id)
