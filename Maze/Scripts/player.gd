@@ -4,6 +4,8 @@ class_name Player
 var coords : Vector2
 @export var speed = 100
 
+var players = []
+
 var id : int
 
 func _enter_tree() -> void:
@@ -14,11 +16,16 @@ func _enter_tree() -> void:
 
 @rpc("any_peer", "call_local")
 func set_health(new_value: int) -> void:
+	if not Server.players.has(id):
+		return
 	if !Server.players: return
 	Server.players[id].health = new_value
 	if Server.players[id].health <= 0: die()
 	
-func get_health() -> int: return Server.players[id].health
+func get_health() -> int: 
+	if not Server.players.has(id):
+		return 100
+	return Server.players[id].health
 
 func _ready():
 	position = Vector2(100, 100)

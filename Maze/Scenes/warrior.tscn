@@ -109,6 +109,12 @@ properties/1/replication_mode = 1
 properties/2/path = NodePath("AnimationPlayer:current_animation")
 properties/2/spawn = true
 properties/2/replication_mode = 1
+properties/3/path = NodePath("Sword/Sprite/Sprite2D:scale")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+properties/4/path = NodePath("Sword/Sprite/Sprite2D:modulate")
+properties/4/spawn = true
+properties/4/replication_mode = 1
 
 [sub_resource type="Animation" id="Animation_ubqr4"]
 length = 0.001
@@ -171,7 +177,7 @@ _data = {
 &"cooldown": SubResource("Animation_om1el")
 }
 
-[node name="Warrior" type="CharacterBody2D"]
+[node name="Warrior" type="CharacterBody2D" groups=["hero"]]
 z_index = 1
 script = ExtResource("1_2s6xd")
 speed = 500
@@ -266,16 +272,16 @@ one_shot = true
 wait_time = 3.0
 one_shot = true
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-visible = false
+[node name="CanvasLayer" type="CanvasLayer" parent="." groups=["hero"]]
 
-[node name="DashUI" type="Sprite2D" parent="CanvasLayer"]
+[node name="BuffUI" type="Sprite2D" parent="CanvasLayer"]
+visible = false
 clip_children = 2
-position = Vector2(226.99998, 123.99999)
+position = Vector2(540.00006, 286.99997)
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("5_x5gpc")
 
-[node name="TextureProgressBar" type="TextureProgressBar" parent="CanvasLayer/DashUI"]
+[node name="TextureProgressBar" type="TextureProgressBar" parent="CanvasLayer/BuffUI"]
 modulate = Color(1, 0, 0, 0.5137255)
 offset_left = -259.99976
 offset_top = -259.99994
@@ -285,8 +291,9 @@ value = 100.0
 fill_mode = 4
 nine_patch_stretch = true
 texture_progress = ExtResource("6_2mk7r")
+metadata/_edit_use_anchors_ = true
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/DashUI"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/BuffUI"]
 libraries = {
 &"": SubResource("AnimationLibrary_uykam")
 }

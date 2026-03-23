@@ -5,7 +5,7 @@ extends Player
 @onready var buff_duration := $BuffDurationTimer
 @onready var buff_cooldown := $BuffCooldownTimer
 @onready var sword := $Sword
-@onready var buff_progress := $CanvasLayer/Control/DashUI
+@onready var buff_progress := $CanvasLayer/BuffUI
 
 var dmg = 10
 var _already_hit := []
@@ -15,6 +15,17 @@ func _enter_tree():
 
 func _ready():
 	buff_cooldown.start()
+	var cam = get_node_or_null("Camera2D")
+	if cam:
+		cam.enabled = is_multiplayer_authority()
+		if is_multiplayer_authority():
+			cam.make_current()
+	
+	
+	'''if !is_multiplayer_authority:
+		buff_progress.hide()
+	if multiplayer.is_server():
+		buff_progress.hide()'''
 
 func attack():
 	$AnimationPlayer.play("sword_swing")
@@ -68,6 +79,7 @@ func _on_buff_cooldown_timer_timeout() -> void:
 	sword.scale.x = 1.8
 	sword.scale.y = 1.8
 	sword.get_node("Sprite/Sprite2D").modulate = Color(1.0, 0.0, 0.0, 1.0)
+	#buff_progress.get_node("AnimationPlayer").play("animation")
 	buff_duration.start()
 
 

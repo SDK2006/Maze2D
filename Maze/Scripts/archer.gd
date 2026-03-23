@@ -17,4 +17,3 @@ func _input(event: InputEvent) -> void:
 		Server.player_shoot.rpc(name.to_int(), global_position, dir, specialArrow)
 		specialArrow += 1
 		if specialArrow == 6:	specialArrow = 0
-		attack_cooldown.start()

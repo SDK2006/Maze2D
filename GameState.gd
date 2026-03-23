@@ -1,4 +1,4 @@
 extends Node
 
-var playerSelection : String = "Theseus"
+var playerSelection : String
 var coords : Vector2

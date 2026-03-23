@@ -10,6 +10,8 @@ var archer_scene := preload("res://Maze/Scenes/archer.tscn")
 var arrow_scene := preload("res://Maze/Scenes/arrow.tscn")
 var warrior_scene := preload("res://Maze/Scenes/warrior.tscn")
 
+var player_selections := {}
+
 var spawner : MultiplayerSpawner
 
 var friendly_fire := false
@@ -23,7 +25,9 @@ func _ready() -> void:
 			await get_tree().scene_changed
 			spawner = get_tree().current_scene.get_node_or_null("MultiplayerSpawner")
 			Server.add_player(1, "owner", 100, 0)
+			player_selections[1] = GameState.playerSelection
 			spawn_boss(1)
+			multiplayer.peer_connected.connect(_on_peer_connected)
 	)
 	
 	client_started.connect(
@@ -33,7 +37,32 @@ func _ready() -> void:
 			spawner = get_tree().current_scene.get_node_or_null("MultiplayerSpawner")
 	)
 	
-	multiplayer.peer_connected.connect(
+	
+	
+func _on_peer_connected(id: int) -> void:
+	if not multiplayer.is_server():
+		return
+	add_player(id, "nil", 100, 0)
+	for _id in players.keys():
+		sync_players.rpc_id(_id, players)
+	if id != 1:
+		set_maze_seed.rpc_id(id, maze_seed)
+	print(id, " has joined.")
+	# Tell client server is ready to receive their selection
+	_server_ready.rpc_id(id)
+
+@rpc("authority", "call_remote", "reliable")
+func _server_ready() -> void:
+	# Client only sends selection after server confirms it's ready
+	register_selection.rpc_id(1, multiplayer.get_unique_id(), GameState.playerSelection)
+
+
+
+
+
+	
+	
+	'''multiplayer.peer_connected.connect(
 		func(id: int) -> void:
 			if multiplayer.is_server():
 				add_player(id, "nil", 100, 0) # Adds player to server player list
@@ -42,20 +71,15 @@ func _ready() -> void:
 				if id != 1: set_maze_seed.rpc_id(id, maze_seed)
 				print(id, " has joined.")
 				if id == multiplayer.get_unique_id(): client_ready.emit()
-				spawn_player(id)
-	)
+	)'''
 	multiplayer.peer_disconnected.connect(
-	func(id: int) -> void:
-		print(id, " has left.")
-		Server.players.erase(id)
-		# Sync to remaining players only
-		for _id in players.keys():
-			if _id != id:
+		func(id: int) -> void:
+			print(id, " has left.")
+			Server.players.erase(id)
+			for _id in players:
 				sync_players.rpc_id(_id, players)
-		var player = get_tree().current_scene.get_node_or_null(str(id))
-		if is_instance_valid(player):
-			player.queue_free()
-)
+			get_tree().current_scene.get_node(str(id)).queue_free() # ERROR PRONE
+	)
 
 func add_player(id: int, username: String, health: int, score: int):
 	players[id] = {
@@ -65,27 +89,52 @@ func add_player(id: int, username: String, health: int, score: int):
 	}
 	
 func spawn_player(id : int) -> void:
-	var hero = archer_scene.instantiate()
-	hero.name = str(id)
-	add_child(hero)
+	#checking for errors
+	if is_instance_valid(get_tree().current_scene.get_node_or_null(str(id))):
+		print("Already spawned: ", id)
+		return
+	var selection = player_selections.get(id, "")
+	if selection == "":
+		push_error("No selection for: " + str(id))
+		return
 	
+	print("Spawning: ", selection, " for: ", id)
+	print(selection)
+	var hero
+	if selection == "Archer":
+		hero = archer_scene.instantiate()
+		print(GameState.playerSelection)
+	else:
+		hero = warrior_scene.instantiate()
+		print(GameState.playerSelection)
+	hero.name = str(id)
+	spawner.get_node(spawner.spawn_path).add_child(hero)
+
+@rpc("any_peer", "call_remote", "reliable")
+func register_selection(id: int, selection: String) -> void:
+	if not multiplayer.is_server():
+		return
+	print("Player ", id, " selected: ", selection)
+	player_selections[id] = selection
+	spawn_player(id)
+
 func spawn_boss(id := 1) -> void:
 	var boss = boss_scene.instantiate()
 	boss.name = str(id)
-	spawner.get_node_or_null(spawner.spawn_path).add_child(boss)
+	spawner.get_node(spawner.spawn_path).add_child(boss)
 
 @rpc("authority")
 func sync_players(server_players: Dictionary) -> void:
 	players = server_players
 
 @rpc("any_peer", "call_local")
-func update_player(id: int, pos: Vector2, rot: float) -> void:
-	var player = get_tree().current_scene.get_node_or_null(str(id))
+func update_player(id : int, pos: Vector2, rot: float):
+	var player = get_tree().current_scene.get_node(str(id))
 	if not is_instance_valid(player):
 		return
 	player.global_position = pos
 	player.global_rotation = rot
-
+	
 @rpc("any_peer", "call_local")
 func player_shoot(id: int, origin: Vector2, direction: Vector2, specialArrow):
 	var arrow = arrow_scene.instantiate()
