@@ -28,7 +28,7 @@ func get_health() -> int:
 	return Server.players[id].health
 
 func _ready():
-	position = Vector2(100, 100)
+	position = GameState.player_coords
 	$Stats.top_level = true
 	$Stats/Label.text = name
 	if Server.players:

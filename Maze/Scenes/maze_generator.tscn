@@ -7,7 +7,7 @@
 [node name="MazeGenerator" type="Node2D"]
 script = ExtResource("1_t3ow0")
 _MazeCellPrefab = ExtResource("2_r1w0m")
-_mazeWidth = 50
-_mazeDepth = 50
+_mazeWidth = 20
+_mazeDepth = 20
 bruhTexture = ExtResource("3_aofsl")
-chamberRadius = 3
+chamberRadius = 1

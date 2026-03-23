@@ -1,4 +1,5 @@
 extends Node
 
 var playerSelection : String
-var coords : Vector2
+var boss_coords : Vector2
+var player_coords : Vector2

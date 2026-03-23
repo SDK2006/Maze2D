@@ -30,7 +30,7 @@ func enter_tree():
 	set_multiplayer_authority(int(name))
 
 func _ready() -> void:
-	position = GameState.coords / 2
+	position = GameState.boss_coords / 2
 	
 	DashProgress.get_node("TextureProgressBar").value = 0
 	
@@ -80,6 +80,15 @@ func _physics_process(_delta: float) -> void:
 		_process_movement()
 		_check_attack_input()
 	move_and_slide()
+	
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("view"):
+		var init_zoom = $Camera2D.zoom
+		var tween = create_tween()
+		tween.tween_property($Camera2D, "zoom", Vector2(0.2, 0.2), 0.1)
+		await get_tree().create_timer(3).timeout
+		tween = create_tween()
+		tween.tween_property($Camera2D, "zoom", init_zoom, 0.2)
 
 func _check_attack_input() -> void:
 	if Input.is_action_just_pressed("attack") and can_attack and not is_attacking:

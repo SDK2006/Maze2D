@@ -3,6 +3,11 @@ extends Control
 var ip_address := "localhost"
 var port := 9999
 
+func _ready() -> void:
+	$NetworkContainer/ClientContainer/ItemList.select(0)
+	GameState.playerSelection = $NetworkContainer/ClientContainer/ItemList.get_item_text(0)
+	print(GameState.playerSelection)
+
 func start_server(_port):
 	var peer = ENetMultiplayerPeer.new()
 	peer.create_server(_port)
@@ -29,6 +34,6 @@ func _on_start_client_pressed() -> void:
 	port = int($NetworkContainer/ClientContainer/HBoxContainer/port_edit.text)
 	start_client(ip_address, port)
 
-func _on_item_list_item_activated(index: int) -> void:
+func _on_item_list_item_selected(index: int) -> void:
 	GameState.playerSelection = $NetworkContainer/ClientContainer/ItemList.get_item_text(index)
 	print(GameState.playerSelection)
